@@ -3,8 +3,10 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from database.db import save_file, add_user
 from helpers.utils import generate_token, format_size
 from config.settings import STORAGE_CHANNEL
+from helpers.decorators import cooldown, not_banned
 
-@Client.on_message(filters.document | filters.video | filters.photo | filters.audio | filters.voice | filters.sticker | filters.animation)
+@Client.on_message((filters.document | filters.video | filters.photo | filters.audio | filters.voice | filters.sticker | filters.animation) & not_banned)
+@cooldown(10)
 async def upload_file(client, message):
     user = message.from_user
     add_user(user.id, user.username)
@@ -78,7 +80,6 @@ async def upload_file(client, message):
 📦 **Size:** {size_str}
 🔗 **Share Link:** {link}"""
 
-    # Inline button to copy link
     await message.reply(reply_text, reply_markup=InlineKeyboardMarkup([
         [InlineKeyboardButton("📋 Copy Link", callback_data=f"copy_{token}")]
     ]))
