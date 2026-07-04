@@ -10,10 +10,8 @@ async def share_file(client, message):
         await message.reply("❌ Invalid or expired link.")
         return
     
-    # Increment download count
     increment_download(token)
     
-    # Retrieve file from storage channel
     chat_id = file_data["channel_id"]
     msg_id = file_data["message_id"]
     
