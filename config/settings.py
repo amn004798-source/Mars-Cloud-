@@ -8,4 +8,4 @@ API_ID = int(os.getenv("API_ID"))
 API_HASH = os.getenv("API_HASH")
 STORAGE_CHANNEL = int(os.getenv("STORAGE_CHANNEL_ID"))
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
-MONGODB_URI = os.getenv("MONGODB_URI")
+MONGODB_URI = os.getenv("MONGODB_URI")  # not used, but keep for compatibility
