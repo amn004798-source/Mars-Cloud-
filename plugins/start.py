@@ -1,26 +1,12 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from database.db import add_user
+from helpers.decorators import not_banned
 
-@Client.on_message(filters.command("start"))
+@Client.on_message(filters.command("start") & not_banned)
 async def start_command(client, message):
     user = message.from_user
     add_user(user.id, user.username or "Unknown")
-    
-    # If token is passed in start parameter (for sharing)
-    if len(message.command) > 1:
-        token = message.command[1]
-        # Handle token sharing – we'll redirect to share.py
-        await client.send_message(message.chat.id, f"📥 Retrieving your file...")
-        # Actually we'll handle it via separate handler; for now we pass to share plugin via filters.
-        # We'll implement share logic in share.py and use a separate handler.
-        # To avoid duplication, we'll just send a message and let share.py handle via command filter.
-        # We can also call the share function directly, but we'll let the filter catch it.
-        # For simplicity, we just forward to the share handler by sending the same message again?
-        # Actually we can manually trigger the share function by calling it.
-        # But better: we define a separate handler for start with token in share.py.
-        # For now, we'll just show welcome and ignore token; token handling will be in share.py with a filter.
-        pass
     
     text = """🚀 **Welcome to Mars Cloud Storage**
 
