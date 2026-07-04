@@ -2,6 +2,7 @@ from functools import wraps
 from pyrogram import filters
 from config.settings import ADMIN_ID
 import time
+from database.db import is_banned
 
 def admin_only(func):
     @wraps(func)
@@ -10,6 +11,15 @@ def admin_only(func):
             return await func(client, message)
         else:
             await message.reply("⛔ You are not authorised.")
+    return wrapper
+
+def not_banned(func):
+    @wraps(func)
+    async def wrapper(client, message):
+        if is_banned(message.from_user.id):
+            await message.reply("🚫 You are banned from using this bot.")
+            return
+        return await func(client, message)
     return wrapper
 
 # simple cooldown (prevent spam)
