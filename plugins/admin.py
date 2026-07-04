@@ -4,8 +4,7 @@ from helpers.decorators import admin_only
 from database.db import (
     get_total_users, get_total_files, get_today_uploads, get_total_storage,
     get_banned_users, ban_user, unban_user, is_banned,
-    delete_file_by_token, search_files, get_all_users,
-    get_user_files
+    delete_file_by_token, search_files, get_all_users
 )
 from helpers.utils import format_size
 import datetime
