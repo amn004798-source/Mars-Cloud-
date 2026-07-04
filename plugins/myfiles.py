@@ -1,8 +1,9 @@
 from pyrogram import Client, filters
 from database.db import get_user_files
 from helpers.utils import format_size
+from helpers.decorators import not_banned
 
-@Client.on_message(filters.command("myfiles"))
+@Client.on_message(filters.command("myfiles") & not_banned)
 async def my_files(client, message):
     user_id = message.from_user.id
     files = list(get_user_files(user_id))
